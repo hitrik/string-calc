@@ -14,14 +14,20 @@ class UserInput extends CalculatorError {
   }
 
   question() {
-    const userAnswer = readlineSync.question(
-      `Добро пожаловать в строковый калькулятор!\n Введите строки для вычисления:\n`
-    );
-    this.answer(userAnswer);
+    console.log('questuion');
+    try {
+      const userAnswer = readlineSync.question(
+        `Добро пожаловать в строковый калькулятор!\n Введите строки для вычисления:\n`
+      );
+      this.answer(userAnswer);
+    } catch (err) {
+      console.log('Error of readlineSync', error);
+    }
   }
 
   parse(input) {
-    const operationList = input.trim().match(/[\/\*-\+]/g) || [];
+    const operatorsRegex = /[\/\*-\+]/g;
+    const operationList = input.trim().match(operatorsRegex) || [];
     const operation = operationList[0];
     const [a, b] = input.split(operation);
     this.validateInput(a, operationList, b);
