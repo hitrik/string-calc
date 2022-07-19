@@ -1,6 +1,6 @@
-const readlineSync = require('readline-sync');
 const CalculatorError = require('./CalculatorError.js');
 const Operations = require('./Operations.js');
+const rl = require('readline');
 
 class UserInput extends CalculatorError {
   readline;
@@ -14,12 +14,16 @@ class UserInput extends CalculatorError {
 
   question() {
     try {
-      const userAnswer = readlineSync.question(
-        `Добро пожаловать в строковый калькулятор!\n Введите строки для вычисления:\n`
+      this.readline = rl.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+      this.readline.question(
+        ['Добро пожаловать в строковый калькулятор!\n', 'Введите строки для вычисления:\n'].join(''),
+        this.answer
       );
-      this.answer(userAnswer);
     } catch (error) {
-      console.log('Error of readlineSync', error);
+      console.log('Error of readline', error);
     }
   }
 
@@ -27,13 +31,17 @@ class UserInput extends CalculatorError {
     const operatorsRegex = /[\/\*-\+]/g;
     const operationList = input.trim().match(operatorsRegex) || [];
     const operation = operationList[0];
-    const [a, b] = input.split(operation);
+    const [a, b] = input.split(operation).map(inp => String.prototype.trim.call(inp));
     this.validateInput(a, operationList, b);
     return [a, operation, b];
   }
 
   isQuoteString(s) {
     return /".*"/g.exec(s);
+  }
+
+  createQuoteString(str) {
+    return `"${str.trim().replaceAll(`"`, '')}"`;
   }
 
   getOperation(op) {
