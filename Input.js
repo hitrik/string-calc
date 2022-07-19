@@ -18,7 +18,7 @@ class UserInput extends CalculatorError {
         `Добро пожаловать в строковый калькулятор!\n Введите строки для вычисления:\n`
       );
       this.answer(userAnswer);
-    } catch (err) {
+    } catch (error) {
       console.log('Error of readlineSync', error);
     }
   }
