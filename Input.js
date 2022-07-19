@@ -1,4 +1,4 @@
-const rl = require('readline');
+const readlineSync = require('readline-sync');
 const CalculatorError = require('./CalculatorError.js');
 const Operations = require('./Operations.js');
 
@@ -8,22 +8,16 @@ class UserInput extends CalculatorError {
   operations;
   constructor(answer) {
     // тут ввод от юзера в терминале, у тебя будет другая библиотека
-    this.readline = rl.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
+    super();
     this.answer = answer;
     this.operations = new Operations();
   }
 
   question() {
-    if (this.answer) {
-      return readline.question(
-        `Добро пожаловать в строковый калькулятор!\n Введите строки для вычисления:\n`,
-        this.answer
-      );
-    }
-    throw new Error('Инициализируйте answer перед стартом');
+    const userAnswer = readlineSync.question(
+      `Добро пожаловать в строковый калькулятор!\n Введите строки для вычисления:\n`
+    );
+    this.answer(userAnswer);
   }
 
   parse(input) {

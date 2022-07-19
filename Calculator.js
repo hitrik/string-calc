@@ -1,10 +1,10 @@
 const Input = require('./Input.js');
 
 class Calculator {
-  operations;
   input;
   start() {
     this.input = new Input(this.answer);
+    this.input.question();
   }
   answer(userInput) {
     try {
