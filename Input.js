@@ -7,14 +7,12 @@ class UserInput extends CalculatorError {
   answer;
   operations;
   constructor(answer) {
-    // тут ввод от юзера в терминале, у тебя будет другая библиотека
     super();
     this.answer = answer;
     this.operations = new Operations();
   }
 
   question() {
-    console.log('questuion');
     try {
       const userAnswer = readlineSync.question(
         `Добро пожаловать в строковый калькулятор!\n Введите строки для вычисления:\n`
